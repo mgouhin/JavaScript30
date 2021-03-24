@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
+</head>
+
+<body>
+  <p>Try typing different keys.</p>
+  <script>
+    // Special Character Keys
+    const konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
+      'ArrowLeft', 'ArrowRight', 'a', 'b', 'Enter'];
+
+    let userKey = [];
+
+    // Compare two arrays one being the source and the other the one to check
+    function compareArrays(desiredArray, unknownArray) {
+      if (unknownArray.length != desiredArray.length) {
+        return false;
+      } else {
+        for (let i = 0; i < desiredArray.length; i++) {
+          if (unknownArray[i] != desiredArray[i]) {
+            return false;
+          }
+        }
+        return true;
+      }
+    }
+
+    /*
+    for every key press add it to the list of keys tracked, if its greater
+    than the special key code get rid of the oldest key, then compare the
+    latest pressed keys against the special key code
+    */
+    window.addEventListener('keyup', (e) => {
+      userKey.push(e.key);
+      if (userKey.length > konami.length) {
+        userKey.shift();
+      }
+      if (compareArrays(konami, userKey)) {
+        document.querySelector('p').style.backgroundColor = 'green';
+        cornify_add();
+      }
+    });
+  </script>
+</body>
+
+</html>
